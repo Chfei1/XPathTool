@@ -1,0 +1,23 @@
+﻿<?xml version="1.0"?>
+<SyntaxDefinition name="INI" extensions=".ini" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment" foreground="Green" />
+  <Color name="Bracket" foreground="Black" />
+  <Color name="Section" foreground="Firebrick" fontWeight="bold" />
+  <Color name="Key" foreground="Firebrick" />
+  <Color name="Equal" foreground="SteelBlue" />
+  <Color name="TrueFalse" foreground="DarkCyan" />
+  <Color name="NumberLiteral" foreground="DarkBlue" />
+  <Color name="Error" foreground="Red" />
+  <Color name="String" foreground="Blue" />
+  <RuleSet>
+
+    <Span  color="Comment" begin="#region.*"  />
+    <Span  color="Comment" begin="#endregion"  />
+
+
+
+  </RuleSet>
+
+
+  
+</SyntaxDefinition>
