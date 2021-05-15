@@ -1,0 +1,42 @@
+﻿<?xml version="1.0"?>
+<SyntaxDefinition name="INI" extensions=".ini" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment" foreground="Green" />
+  <Color name="Bracket" foreground="Black" />
+  <Color name="Section" foreground="Blue" fontWeight="bold" />
+  <Color name="Key" foreground="Firebrick" />
+  <Color name="Equal" foreground="SteelBlue" />
+  <Color name="TrueFalse" foreground="DarkCyan" />
+  <Color name="NumberLiteral" foreground="DarkBlue" />
+  <Color name="Error" foreground="Red" />
+  <Color name="String" foreground="Blue" />
+  <RuleSet>
+
+    <Span  color="Section" begin="#region.*"  />
+    <Span  color="Section" begin="#endregion"  />
+
+
+
+  </RuleSet>
+
+
+  <RuleSet name="TrueFalse" ignoreCase="true">
+    <Keywords color="TrueFalse">
+      <Word>true</Word>
+      <Word>false</Word>
+    </Keywords>
+  </RuleSet>
+
+  <RuleSet name="NumberLiteral">
+    <Keywords color="NumberLiteral">
+      <Word>NaN</Word>
+    </Keywords>
+    <Rule color="NumberLiteral">
+      \b0[xX][0-9a-fA-F]+  # hex number
+      |    \b
+      (    \d+(\.[0-9]+)?   #number with optional floating point
+      |    \.[0-9]+         #or just starting with floating point
+      )
+      ([eE][+-]?[0-9]+)? # optional exponent
+    </Rule>
+  </RuleSet>
+</SyntaxDefinition>
