@@ -54,6 +54,8 @@ namespace WpfXPathTool
         {
 
             InitializeComponent();
+
+
             //dto = new FormDataDto();
             //this.DataContext = dto;
 
@@ -70,8 +72,68 @@ namespace WpfXPathTool
             txt_xpath.TextArea.TextEntering += textEditor_TextArea_TextEntering;
             txt_xpath.TextArea.TextEntered += textEditor_TextArea_TextEntered;
 
-            //txt_SourceHtml.TextArea.TextEntering += textEditor_TextArea_TextEntering;
-            //txt_SourceHtml.TextArea.TextEntered += textEditor_TextArea_TextEntered;
+
+
+
+
+
+
+            SetMenu();
+
+
+        }
+
+        private void SetMenu()
+        {
+            ContextMenu aMenu = new ContextMenu();
+            MenuItem copyMenuItem = new MenuItem();
+            copyMenuItem.Header = "新的解析";
+            copyMenuItem.Click += CopyMenuItem_Click;
+            aMenu.Items.Add(copyMenuItem);
+
+
+            txt_outContent.ContextMenu = aMenu;
+        }
+
+        /// <summary>
+        /// 新建一个解析器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            txt_outContent.Copy();
+            string clipboardText = Clipboard.GetText(TextDataFormat.Text);
+            Clipboard.SetText("");
+            //声明一个程序信息类
+            System.Diagnostics.ProcessStartInfo Info = new System.Diagnostics.ProcessStartInfo();
+            Info.WorkingDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+            Info.FileName = "WpfXPathTool.exe";
+            Info.UseShellExecute = false;
+            Info.RedirectStandardInput = false;
+            Info.RedirectStandardOutput = false;
+            Info.RedirectStandardError = false;
+            Info.CreateNoWindow = true;
+            //设置外部程序的启动参数（命令行参数)
+            Info.Arguments = Base64Helper.Encode(clipboardText);
+
+
+            //声眀①个程序类
+            System.Diagnostics.Process Proc;
+            try
+            {
+                //
+                //启动外部程序
+                //
+                Proc = System.Diagnostics.Process.Start(Info);
+
+            }
+
+            catch (System.ComponentModel.Win32Exception e1)
+            {
+                Console.WriteLine("系统找不到指定的程序文件。\r{0}", e);
+                return;
+            }
 
         }
 
@@ -88,9 +150,15 @@ namespace WpfXPathTool
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-
-
-
+            if (!string.IsNullOrEmpty(Config.SourceHtml))
+            {
+                txt_SourceHtml.Text = Config.SourceHtml;
+                txt_xpath.Focus();
+            }
+            else
+            {
+                txt_SourceHtml.Focus();
+            }
 
 
         }
@@ -132,7 +200,7 @@ namespace WpfXPathTool
             }
 
             completionWindow.Show();
-          
+
             completionWindow.Closed += delegate
             {
                 completionWindow = null;
@@ -164,75 +232,36 @@ namespace WpfXPathTool
         {
             try
             {
+
+
                 txt_outContent.Text = "";
                 string xpath = txt_xpath.Text;
-                string attr = "";
-                Match match = Regex.Match(xpath, "^(?<xpath>.+?)/@(?<attr>[^(/@)]+)$");
-                if (match.Success)
-                {
-                    xpath = match.Groups["xpath"].Value;
-                    attr = match.Groups["attr"].Value;
-                }
                 string html = txt_SourceHtml.Text;//  dto.SourceHtml;
-                if (string.IsNullOrWhiteSpace(html))
+                ResultContentType contentType = ResultContentType.Text;
+                contentType = ck_outhtml.IsChecked.Value ? ResultContentType.OuterHtml : contentType;
+                XpathMatchResult result = XPathHelper.Match(xpath, html, contentType);
+                if (!result.Success)
                 {
-                    MessageBox.Show("需要匹配内容不存在");
-                    this.txt_xpath.Focus();
-                }
-                else if (string.IsNullOrWhiteSpace(xpath))
-                {
-                    MessageBox.Show("xpath语句不存在");
-                    this.txt_xpath.Focus();
+                    MessageBox.Show(result.Message);
                 }
                 else
                 {
-
-                    HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
-                    htmlDocument.LoadHtml(html);
-                    HtmlNodeCollection htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes(xpath);
-                    int num = (htmlNodeCollection != null) ? htmlNodeCollection.Count : 0;
                     StringBuilder sb = new StringBuilder();
-                    sb.AppendLine(string.Format("共匹配到{0}条", num));
+                    sb.AppendLine(string.Format("共匹配到{0}条", result.Count));
                     sb.AppendLine();
-                    int num2 = 1;
-                    if (num > 0)
+                    sb.AppendLine();
+                    int index = 1;
+                    foreach (var item in result.Result)
                     {
-                        foreach (HtmlNode htmlNode in ((IEnumerable<HtmlNode>)htmlNodeCollection))
-                        {
-                            sb.AppendLine(string.Format("#region [{0}]", num2++));
-                            sb.AppendLine();
-                            string value;
-                            if (string.IsNullOrWhiteSpace(attr))
-                            {
-                                if (ck_outhtml.IsChecked.Value)
-                                {
-                                    value = htmlNode.OuterHtml;
-                                }
-                                else
-                                {
-                                    value = htmlNode.InnerText;
-                                }
-                            }
-                            else
-                            {
-                                HtmlAttribute htmlAttribute = htmlNode.Attributes[attr];
-                                if (htmlAttribute != null)
-                                {
-                                    value = htmlAttribute.Value;
-                                }
-                                else
-                                {
-                                    value = "无" + attr + "属性";
-                                }
-                            }
-                            sb.AppendLine(value);
-                            sb.AppendLine();
-                            sb.AppendLine("#endregion");
-                        }
+                        sb.AppendLine($"#region {index}");
+                        sb.AppendLine(item);
+                        sb.AppendLine("#endregion");
+                        sb.AppendLine();
+                        index++;
                     }
+
+
                     txt_outContent.Text = sb.ToString();
-
-
                 }
             }
             catch (Exception ex)

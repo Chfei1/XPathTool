@@ -45,7 +45,7 @@
                     </avalonEdit:TextEditor>
                 </Border>
 
-                <CheckBox Name="ck_outhtml"  Grid.Column="2" Width="auto" VerticalContentAlignment="Center">OutHtml</CheckBox>
+                <CheckBox Name="ck_outhtml"  Grid.Column="2" Width="auto" VerticalContentAlignment="Center" IsChecked="True">OutHtml</CheckBox>
                 <Button Click="Button_Click" Grid.Column="3" Width="80" Height="30">获取</Button>
 
             </Grid>
@@ -74,7 +74,7 @@
                  FontFamily="Consolas"
                  FontSize="10pt"
                  ShowLineNumbers="False"
- >
+ >  
             </avalonEdit:TextEditor>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"></GridSplitter>
             <avalonEdit:TextEditor
@@ -83,15 +83,11 @@
                  xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
                  FontFamily="Consolas"
                  FontSize="10pt"
+                WordWrap="True"
                 IsReadOnly="True"
                  ShowLineNumbers="False"
                 ></avalonEdit:TextEditor>
-            <!--<TextBox Name="txt_outContent" Grid.Column="2"  
-                     TextWrapping="Wrap"
-                     IsReadOnly="True"
-                     VerticalScrollBarVisibility="Auto"
-                TextBlock.LineHeight="5"></TextBox>-->
         </Grid>
-
+     
     </Grid>
 </Window>
