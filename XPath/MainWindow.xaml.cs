@@ -41,7 +41,7 @@ namespace XPath
         private CompletionWindow completionWindow;
         private readonly FoldingManager foldingManager;
 
-        private readonly MyFoldingStrategy foldingStrategy = new MyFoldingStrategy();
+        private readonly XPathFoldingStrategy foldingStrategy = new XPathFoldingStrategy();
         public MainWindow()
         {
 
@@ -190,7 +190,6 @@ namespace XPath
                     data.Add(a);
                 });
             }
-
             completionWindow.Show();
 
             completionWindow.Closed += delegate

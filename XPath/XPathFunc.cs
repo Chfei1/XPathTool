@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit.Document;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,10 @@ namespace XPath
     {
         static XPathFunc()
         {
+            Data.Add(new XPathCompletionData { Text = "@id", Description = "Id属性", Complement = AtrrComplement });
+            Data.Add(new XPathCompletionData { Text = "@class", Description = "Class属性", Complement = AtrrComplement });
+            Data.Add(new XPathCompletionData { Text = "@type", Description = "type属性", Complement = AtrrComplement });
 
-         
-            Data.Add(new XPathCompletionData { Text = "@id", Description = "" });
-            Data.Add(new XPathCompletionData { Text = "@class", Description = "" });
 
             Data.Add(new XPathCompletionData { Text = "node-name(node)", Description = "返回参数节点的节点名称。" });
             Data.Add(new XPathCompletionData { Text = "nilled(node)", Description = "返回是否拒绝参数节点的布尔值。" });
@@ -21,42 +22,42 @@ namespace XPath
             Data.Add(new XPathCompletionData { Text = "base-uri()", Description = "返回当前节点或指定节点的 base-uri 属性的值。" });
             Data.Add(new XPathCompletionData { Text = "document-uri(node)", Description = "返回指定节点的 document-uri 属性的值。" });
 
-            Data.Add(new XPathCompletionData { Text = "number(arg)", Description = "返回参数的数值。参数可以是布尔值、字符串或节点集。" });
-            Data.Add(new XPathCompletionData { Text = "abs(num)", Description = "返回参数的绝对值。" });
-            Data.Add(new XPathCompletionData { Text = "ceiling(num)", Description = "返回大于 num 参数的最小整数。" });
-            Data.Add(new XPathCompletionData { Text = "floor(num)", Description = "返回不大于 num 参数的最大整数。" });
-            Data.Add(new XPathCompletionData { Text = "round(num)", Description = "把 num 参数舍入为最接近的整数。" });
+            Data.Add(new XPathCompletionData { Text = "number()", Description = "返回参数的数值。参数可以是布尔值、字符串或节点集。" });
+            Data.Add(new XPathCompletionData { Text = "abs()", Description = "返回参数的绝对值。" });
+            Data.Add(new XPathCompletionData { Text = "ceiling()", Description = "返回大于 num 参数的最小整数。" });
+            Data.Add(new XPathCompletionData { Text = "floor()", Description = "返回不大于 num 参数的最大整数。" });
+            Data.Add(new XPathCompletionData { Text = "round()", Description = "把 num 参数舍入为最接近的整数。" });
             Data.Add(new XPathCompletionData { Text = "round-half-to-even()", Description = "例子：round-half-to-even(0.5)" });
 
 
 
-            Data.Add(new XPathCompletionData { Text = "string(arg)", Description = "返回参数的字符串值。参数可以是数字、逻辑值或节点集。" });
-            Data.Add(new XPathCompletionData { Text = "codepoints-to-string(int,int,...)", Description = "根据代码点序列返回字符串。" });
-            Data.Add(new XPathCompletionData { Text = "string-to-codepoints(string)", Description = "根据字符串返回代码点序列。" });
-            Data.Add(new XPathCompletionData { Text = "codepoint-equal(comp1,comp2)", Description = "根据 Unicode 代码点对照，如果 comp1 的值等于 comp2 的值，则返回 true。(http://www.w3.org/2005/02/xpath-functions/collation/codepoint)，否则返回 false。" });
-            Data.Add(new XPathCompletionData { Text = "compare(comp1,comp2,collation)", Description = "如果 comp1 小于 comp2，则返回 -1。如果 comp1 等于 comp2，则返回 0。如果 comp1 大于 comp2，则返回 1。（根据所用的对照规则）。" });
-            Data.Add(new XPathCompletionData { Text = "concat(string,string,...)", Description = "返回字符串的拼接。" });
-            Data.Add(new XPathCompletionData { Text = "string-join((string,string,...),sep)", Description = "使用 sep 参数作为分隔符，来返回 string 参数拼接后的字符串。" });
-            Data.Add(new XPathCompletionData { Text = "substring(string,start,len)", Description = "返回从 start 位置开始的指定长度的子字符串。第一个字符的下标是 1。如果省略 len 参数，则返回从位置 start 到字符串末尾的子字符串。" });
+            Data.Add(new XPathCompletionData { Text = "string()", Description = "返回参数的字符串值。参数可以是数字、逻辑值或节点集。" });
+            Data.Add(new XPathCompletionData { Text = "codepoints-to-string()", Description = "根据代码点序列返回字符串。" });
+            Data.Add(new XPathCompletionData { Text = "string-to-codepoints()", Description = "根据字符串返回代码点序列。" });
+            Data.Add(new XPathCompletionData { Text = "codepoint-equal()", Description = "根据 Unicode 代码点对照，如果 comp1 的值等于 comp2 的值，则返回 true。(http://www.w3.org/2005/02/xpath-functions/collation/codepoint)，否则返回 false。" });
+            Data.Add(new XPathCompletionData { Text = "compare()", Description = "如果 comp1 小于 comp2，则返回 -1。如果 comp1 等于 comp2，则返回 0。如果 comp1 大于 comp2，则返回 1。（根据所用的对照规则）。" });
+            Data.Add(new XPathCompletionData { Text = "concat()", Description = "返回字符串的拼接。" });
+            Data.Add(new XPathCompletionData { Text = "string-join()", Description = "使用 sep 参数作为分隔符，来返回 string 参数拼接后的字符串。" });
+            Data.Add(new XPathCompletionData { Text = "substring()", Description = "返回从 start 位置开始的指定长度的子字符串。第一个字符的下标是 1。如果省略 len 参数，则返回从位置 start 到字符串末尾的子字符串。" });
             Data.Add(new XPathCompletionData { Text = "string-length()", Description = "返回指定字符串的长度。如果没有 string 参数，则返回当前节点的字符串值的长度。" });
             Data.Add(new XPathCompletionData { Text = "normalize-space()", Description = "删除指定字符串的开头和结尾的空白，并把内部的所有空白序列替换为一个，然后返回结果。如果没有 string 参数，则处理当前节点。" });
             Data.Add(new XPathCompletionData { Text = "normalize-unicode()", Description = "执行 Unicode 规格化。" });
-            Data.Add(new XPathCompletionData { Text = "upper-case(string)", Description = "把 string 参数转换为大写。" });
-            Data.Add(new XPathCompletionData { Text = "lower-case(string)", Description = "把 string 参数转换为小写。" });
-            Data.Add(new XPathCompletionData { Text = "translate(string1,string2,string3)", Description = "把 string1 中的 string2 替换为 string3。" });
-            Data.Add(new XPathCompletionData { Text = "escape-uri(stringURI,esc-res)", Description = "Url编码	例子：escape-uri(http://example.com/test#car, true()) 结果：http%3A%2F%2Fexample.com%2Ftest#car" });
-            Data.Add(new XPathCompletionData { Text = "contains(string1,string2)", Description = "如果 string1 包含 string2，则返回 true，否则返回 false。" });
-            Data.Add(new XPathCompletionData { Text = "starts-with(string1,string2)", Description = "如果 string1 以 string2 开始，则返回 true，否则返回 false。" });
-            Data.Add(new XPathCompletionData { Text = "ends-with(string1,string2)", Description = "如果 string1 以 string2 结尾，则返回 true，否则返回 false。" });
-            Data.Add(new XPathCompletionData { Text = "substring-before(string1,string2)", Description = "返回 string2 在 string1 中出现之前的子字符串。" });
-            Data.Add(new XPathCompletionData { Text = "substring-after(string1,string2)", Description = "返回 string2 在 string1 中出现之后的子字符串。" });
-            Data.Add(new XPathCompletionData { Text = "matches(string,pattern)", Description = "如果 string 参数匹配指定的模式，则返回 true，否则返回 false。" });
-            Data.Add(new XPathCompletionData { Text = "replace(string,pattern,replace)", Description = "把指定的模式替换为 replace 参数，并返回结果。" });
-            Data.Add(new XPathCompletionData { Text = "tokenize(string,pattern)", Description = "例子：tokenize(\"XPath is fu \"\\s + \")" });
+            Data.Add(new XPathCompletionData { Text = "upper-case()", Description = "把 string 参数转换为大写。" });
+            Data.Add(new XPathCompletionData { Text = "lower-case()", Description = "把 string 参数转换为小写。" });
+            Data.Add(new XPathCompletionData { Text = "translate()", Description = "把 string1 中的 string2 替换为 string3。" });
+            Data.Add(new XPathCompletionData { Text = "escape-uri()", Description = "Url编码	例子：escape-uri(http://example.com/test#car, true()) 结果：http%3A%2F%2Fexample.com%2Ftest#car" });
+            Data.Add(new XPathCompletionData { Text = "contains()", Description = "如果 string1 包含 string2，则返回 true，否则返回 false。" });
+            Data.Add(new XPathCompletionData { Text = "starts-with()", Description = "如果 string1 以 string2 开始，则返回 true，否则返回 false。" });
+            Data.Add(new XPathCompletionData { Text = "ends-with()", Description = "如果 string1 以 string2 结尾，则返回 true，否则返回 false。" });
+            Data.Add(new XPathCompletionData { Text = "substring-before()", Description = "返回 string2 在 string1 中出现之前的子字符串。" });
+            Data.Add(new XPathCompletionData { Text = "substring-after()", Description = "返回 string2 在 string1 中出现之后的子字符串。" });
+            Data.Add(new XPathCompletionData { Text = "matches()", Description = "如果 string 参数匹配指定的模式，则返回 true，否则返回 false。" });
+            Data.Add(new XPathCompletionData { Text = "replace()", Description = "把指定的模式替换为 replace 参数，并返回结果。" });
+            Data.Add(new XPathCompletionData { Text = "tokenize()", Description = "例子：tokenize(\"XPath is fu \"\\s + \")" });
 
 
-            Data.Add(new XPathCompletionData { Text = "boolean(arg)", Description = "返回数字、字符串或节点集的布尔值。" });
-            Data.Add(new XPathCompletionData { Text = "not(arg)", Description = "首先通过 boolean() 函数把参数还原为一个布尔值。如果该布尔值为 false，则返回 true，否则返回 true" });
+            Data.Add(new XPathCompletionData { Text = "boolean()", Description = "返回数字、字符串或节点集的布尔值。" });
+            Data.Add(new XPathCompletionData { Text = "not()", Description = "首先通过 boolean() 函数把参数还原为一个布尔值。如果该布尔值为 false，则返回 true，否则返回 true" });
             Data.Add(new XPathCompletionData { Text = "true()", Description = "返回布尔值 true。" });
             Data.Add(new XPathCompletionData { Text = "false()", Description = "返回布尔值 false。" });
 
@@ -134,11 +135,33 @@ namespace XPath
             Data.Add(new XPathCompletionData { Text = "static-base-uri()", Description = "返回 base-uri 的值。" });
 
 
+            Data.ForEach(a =>
+            {
+                if (a.Complement == null)
+                {
+                    a.Complement = Complement;
+                }
+            });
 
 
+          
+        }
 
-
-
+        public static (ISegment completionSegment, string Text, int SelectionStart) AtrrComplement(string Text, ISegment completionSegment)
+        {
+            Text = $"{Text}='']";
+            int SelectionStart = Text.Length - 2;
+            return (completionSegment, Text, SelectionStart);
+        }
+        /// <summary>
+        /// 补全信息
+        /// </summary>
+        /// <returns></returns>ISegment completionSegment, string Text
+        public static (ISegment completionSegment, string Text, int SelectionStart) Complement(string Text, ISegment completionSegment)
+        {
+            int SelectionStart = Text.IndexOf("(") + 1;
+            Text = $"{Text}]";
+            return (completionSegment, Text, SelectionStart);
         }
         public static List<XPathCompletionData> Data = new List<XPathCompletionData>();
     }

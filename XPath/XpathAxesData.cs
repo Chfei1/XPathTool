@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit.Document;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace XPath
 
         static XpathAxesData()
         {
-         
+
             Data.Add(new XPathCompletionData { Text = "@href", Description = "" });
             Data.Add(new XPathCompletionData { Text = "ancestor", Description = "选取当前节点的所有先辈（父、祖父等）。" });
             Data.Add(new XPathCompletionData { Text = "ancestor-or-self", Description = "选取当前节点的所有先辈（父、祖父等）以及当前节点本身。" });
@@ -26,6 +27,33 @@ namespace XPath
             Data.Add(new XPathCompletionData { Text = "preceding", Description = "选取文档中当前节点的开始标签之前的所有节点。" });
             Data.Add(new XPathCompletionData { Text = "preceding-sibling", Description = "选取当前节点之前的所有同级节点。" });
             Data.Add(new XPathCompletionData { Text = "self", Description = "选取当前节点。" });
+
+            Data.ForEach(a =>
+            {
+                a.Complement = Complement;
+            });
+        }
+        /// <summary>
+        /// 补全信息
+        /// </summary>
+        /// <returns></returns>ISegment completionSegment, string Text
+        public static (ISegment completionSegment, string Text, int SelectionStart) Complement(string Text, ISegment completionSegment)
+        {
+            TextSegment textSegment = new TextSegment
+            {
+                StartOffset = completionSegment.Offset,
+                Length = completionSegment.Length,
+                EndOffset = completionSegment.EndOffset
+            };
+            textSegment.StartOffset = completionSegment.Offset - 1;
+            textSegment.Length = completionSegment.Length + 1;
+            Text = $"/{Text}";
+            if (!Text.StartsWith("/@"))
+            {
+                Text = $"{Text}::*";
+            }
+
+            return (textSegment, Text, 0);
         }
         public static List<XPathCompletionData> Data = new List<XPathCompletionData>();
     }

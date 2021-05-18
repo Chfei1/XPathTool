@@ -10,7 +10,10 @@ using System.Windows.Media.TextFormatting;
 
 namespace XPath
 {
-    public class MyFoldingStrategy
+    /// <summary>
+    /// 解析后折叠
+    /// </summary>
+    public class XPathFoldingStrategy
     {
         public void UpdateFoldings(FoldingManager manager, TextDocument document)
         {

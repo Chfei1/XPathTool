@@ -31,24 +31,37 @@ namespace XPath
                 return this.Text;
             }
         }
+        /// <summary>
+        /// 补全信息
+        /// </summary>
+        /// <returns></returns>
+        public Func<string, ISegment, (ISegment completionSegment, string Text, int SelectionStart)> Complement { get; set; }
 
         public object Description { get; set; }
 
 
         public double Priority => 0;
 
+
         public void Complete(TextArea textArea, ISegment completionSegment,
             EventArgs insertionRequestEventArgs)
         {
-            var prevchar = textArea.Document.GetText(completionSegment.Offset - 1, 1);
-            if (prevchar == ".")
+            if (Complement != null)
             {
-                textArea.Document.Replace(completionSegment.Offset - 1, completionSegment.Length + 1, "/" + this.Text);
+                var ret = Complement(this.Text, completionSegment);
+                int OldSelectionStart = completionSegment.Offset;
+                textArea.Document.Replace(ret.completionSegment, ret.Text);
+                if (ret.SelectionStart > 0)
+                {
+                    textArea.Caret.Offset = OldSelectionStart + ret.SelectionStart;
+                }
             }
             else
             {
                 textArea.Document.Replace(completionSegment, this.Text);
             }
+
+
 
         }
     }
