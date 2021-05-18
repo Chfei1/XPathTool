@@ -5,10 +5,12 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <StartupObject>XPath.Program</StartupObject>
+    <ApplicationIcon>tool.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="init.xshd" />
+    <None Remove="tool.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +20,10 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.1.1" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.33" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="tool.ico" />
   </ItemGroup>
 
 </Project>

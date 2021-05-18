@@ -7,7 +7,7 @@
         mc:Ignorable="d"
          Title="XPath Tool" Height="650" Width="1000"
           Loaded="Window_Loaded"
-        WindowStartupLocation ="CenterScreen"
+        WindowStartupLocation ="CenterScreen" Icon="/tool.ico"
         >
     <Grid Margin="10">
         <Grid.RowDefinitions>

@@ -106,24 +106,22 @@ namespace XPath
             Info.RedirectStandardOutput = false;
             Info.RedirectStandardError = false;
             Info.CreateNoWindow = true;
-            //设置外部程序的启动参数（命令行参数)
+
             Info.Arguments = Base64Helper.Encode(clipboardText);
 
 
-            //声眀①个程序类
+
             System.Diagnostics.Process Proc;
             try
             {
-                //
-                //启动外部程序
-                //
+              
                 Proc = System.Diagnostics.Process.Start(Info);
 
             }
 
-            catch (System.ComponentModel.Win32Exception e1)
+            catch (Exception ex)
             {
-                Console.WriteLine("系统找不到指定的程序文件。\r{0}", e);
+                Console.WriteLine("系统找不到指定的程序文件。\r{0}", ex);
                 return;
             }
 
